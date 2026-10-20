@@ -1,181 +1,428 @@
-// ---------- 1. THEME SWITCHER (day / night) ----------
-const themeBtn = document.getElementById('theme-btn');
-
-function applyTheme() {
-  // the <html> tag holds data-theme, CSS reads it
-  const root = document.documentElement;
-  if (root.dataset.theme === 'dark') {
-    root.dataset.theme = 'light';
-  } else {
-    root.dataset.theme = 'dark';
-  }
-}
-// when the button is clicked, run applyTheme
-themeBtn.addEventListener('click', applyTheme);
-
-// ---------- 2. TRANSLATIONS (English / Arabic) ----------
-const translations = {
-  en: {
-    nav_about: 'About',
-    nav_skills: 'Skills',
-    nav_projects: 'Projects',
-    nav_hobbies: 'Hobbies',
-    nav_volunteer: 'Volunteering',
-    nav_contact: 'Contact',
-    btn_theme: 'Theme',
-    hero_hi: "Hi, I'm",
-    hero_name: 'Orjoan Aldabaibah',
-    fact1: 'Full-stack web developer',
-    fact2: 'Data analytics intern at Dimensions',
-    fact3: 'Linux Society and IEEE volunteer',
-    hero_role: 'Junior Web Developer and Data Analyst',
-    about_text: "I'm a developer who loves turning ideas into working products. I build full-stack web apps, turn data into clear dashboards, and care about clean, reliable code. I learn fast, solve problems calmly, and enjoy working in a team.",
-    skills_title: 'Skills',
-    sk_data: 'Data and BI',
-    sk_web: 'Web development',
-    sk_tools: 'Tools',
-    sk_lang: 'Languages',
-    sk_lang_list: 'Arabic, English, Japanese',
-    projects_title: 'Projects',
-    view: 'View project',
-    p0_desc: 'Subscription management app, my graduation project.',
-    p1_title: 'Lost and Found System',
-    p1_desc: 'A web system for reporting lost and found items.',
-    p2_title: 'Solartec Store',
-    p2_desc: 'A website for sustainable energy devices.',
-    p3_title: 'Codescape (IEEE)',
-    p3_desc: 'Event website for an IEEE competition.',
-    edu_title: 'Education',
-    edu1_degree: "Bachelor's degree in Business Information Technology",
-    edu1_school: 'University of Jordan',
-    edu2_track: 'Cyber and Web Essentials track',
-    edu2_school: '42 Amman',
-    vol_title: 'Volunteering',
-    v1_date: 'Oct 2023 – Oct 2024',
-    v1_role: 'PR Team Member',
-    v1_org: 'Linux Society',
-    v2_date: 'Jan 2024 – Jan 2025',
-    v2_role: 'Geeks Team Member',
-    v2_org: 'IEEE Computer Society',
-    v3_date: 'Oct 2024 – Oct 2025',
-    v3_role: 'PR Events Supervisor',
-    v3_org: 'Linux Society',
-    v4_date: 'Feb 2025 – Oct 2025',
-    v4_role: 'Geeks Sub-Secretary',
-    v4_org: 'IEEE Computer Society',
-    v5_role: 'Organizer',
-    v5_org: 'Hult Prize, University of Jordan',
-    v6_role: 'Organizer',
-    v6_org: 'Beside.jo',
-    hobbies_title: 'Hobbies',
-    h1: 'Gaming',
-    h2: 'Doing puzzles',
-    contact_title: 'Contact',
-    label_name: 'Name',
-    label_email: 'Email',
-    label_msg: 'Message',
-    send: 'Send message',
-    footer: 'Made by Orjoan Aldabaibah',
-    langBtn: 'عربي'
-  },
-  ar: {
-    nav_about: 'نبذة عني',
-    nav_skills: 'المهارات',
-    nav_projects: 'المشاريع',
-    nav_hobbies: 'الهوايات',
-    nav_volunteer: 'التطوع',
-    nav_contact: 'تواصل معي',
-    btn_theme: 'تغيير المظهر',
-    hero_hi: 'مرحبًا، أنا',
-    hero_name: 'أرجوان علي الدبايبة',
-    fact1: 'مطورة ويب متكاملة',
-    fact2: 'متدربة تحليل بيانات في Dimensions',
-    fact3: 'متطوعة في نادي لينكس وIEEE',
-    hero_role: 'مطورة ويب ومحللة بيانات مبتدئة',
-    about_text: 'أنا مطورة أحب تحويل الأفكار إلى منتجات تعمل بشكل حقيقي. أبني تطبيقات ويب متكاملة، وأحوّل البيانات إلى لوحات واضحة، وأهتم بكتابة كود نظيف وموثوق. أتعلم بسرعة، وأحل المشكلات بهدوء، وأستمتع بالعمل ضمن فريق.',
-    skills_title: 'المهارات',
-    sk_data: 'البيانات وذكاء الأعمال',
-    sk_web: 'تطوير الويب',
-    sk_tools: 'الأدوات',
-    sk_lang: 'اللغات',
-    sk_lang_list: 'العربية، الإنجليزية، اليابانية',
-    projects_title: 'المشاريع',
-    view: 'عرض المشروع',
-    p0_desc: 'تطبيق لإدارة الاشتراكات، وهو مشروع تخرجي.',
-    p1_title: 'نظام المفقودات',
-    p1_desc: 'نظام ويب للإبلاغ عن الأغراض المفقودة والموجودة.',
-    p2_title: 'متجر سولارتك',
-    p2_desc: 'موقع لأجهزة الطاقة المستدامة.',
-    p3_title: 'كودسكيب (IEEE)',
-    p3_desc: 'موقع فعالية لمسابقة IEEE.',
-    edu_title: 'التعليم',
-    edu1_degree: 'بكالوريوس في تكنولوجيا المعلومات التجارية',
-    edu1_school: 'الجامعة الأردنية',
-    edu2_track: 'مسار أساسيات الأمن السيبراني والويب',
-    edu2_school: '42 عمّان',
-    vol_title: 'التطوع',
-    v1_date: 'أكتوبر 2023 – أكتوبر 2024',
-    v1_role: 'عضو فريق العلاقات العامة',
-    v1_org: 'نادي لينكس',
-    v2_date: 'يناير 2024 – يناير 2025',
-    v2_role: 'عضو فريق Geeks',
-    v2_org: 'IEEE Computer Society',
-    v3_date: 'أكتوبر 2024 – أكتوبر 2025',
-    v3_role: 'مشرفة فعاليات العلاقات العامة',
-    v3_org: 'نادي لينكس',
-    v4_date: 'فبراير 2025 – أكتوبر 2025',
-    v4_role: 'أمينة سر مساعدة في فريق Geeks',
-    v4_org: 'IEEE Computer Society',
-    v5_role: 'منظمة',
-    v5_org: 'Hult Prize، الجامعة الأردنية',
-    v6_role: 'منظمة',
-    v6_org: 'Beside.jo',
-    hobbies_title: 'الهوايات',
-    h1: 'الألعاب', h2: 'حل الألغاز',
-    contact_title: 'تواصل معي',
-    label_name: 'الاسم',
-    label_email: 'البريد الإلكتروني',
-    label_msg: 'الرسالة',
-    send: 'إرسال الرسالة',
-    footer: 'من تصميم أرجوان علي الدبايبة',
-    langBtn: 'English'
-  }
-};
-
-let lang = 'en';
-
-function applyLanguage() {
-  // t = the dictionary of the current language
-  const t = translations[lang];
-
-  // find every element that has data-translate
-  const elements = document.querySelectorAll('[data-translate]');
-  for (const el of elements) {
-    // read the key from the element, for example "nav_about"
-    const key = el.dataset.translate;
-    // replace the text with the translation
-    el.textContent = t[key];
-  }
-
-  // tell the browser the language and the reading direction
-  document.documentElement.lang = lang;
-  if (lang === 'ar') {
-    document.documentElement.dir = 'rtl';
-  } else {
-    document.documentElement.dir = 'ltr';
-  }
-
-  // change the language button text
-  document.getElementById('lang-btn').textContent = t.langBtn;
+/* DAY MODE colors (default): sky blue + sun */
+:root {
+  --sky-top: #8fd0ff;
+  --sky-bottom: #eaf7ff;
+  --text: #15324d;
+  --card: rgba(255, 255, 255, 0.78);
+  --accent: #1769b3;
+  --on-accent: #ffffff;
+  --border: #b6dcf7;
+  --glass: rgba(255, 255, 255, 0.4);
 }
 
-function toggleLanguage() {
-  if (lang === 'en') {
-    lang = 'ar';
-  } else {
-    lang = 'en';
-  }
-  applyLanguage();
+/* NIGHT MODE colors: navy + stars + moon */
+[data-theme="dark"] {
+  --sky-top: #060b22;
+  --sky-bottom: #14205a;
+  --text: #e6ebff;
+  --card: rgba(20, 32, 90, 0.75);
+  --accent: #ffd54a;
+  --on-accent: #0b1235;
+  --border: #2c3f8f;
+  --glass: rgba(20, 32, 90, 0.4);
 }
-// when the button is clicked, run toggleLanguage
-document.getElementById('lang-btn').addEventListener('click', toggleLanguage);
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing:border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 70px;
+}
+
+body {
+  position: relative;
+  min-height: 100vh;
+  font-family: 'Trebuchet MS', Tahoma, sans-serif;
+  line-height: 1.7;
+  color: var(--text);
+  background: linear-gradient(var(--sky-top), var(--sky-bottom)) fixed;
+  transition: color 0.4s;
+}
+a {
+  color: var(--accent);
+}
+
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* sky: sun, clouds, moon, stars */
+.sky {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden; }
+
+
+/* the changing that happens when the sun that becomes the moon  */
+.orb {
+  position: absolute;
+  top: 90px;
+  inset-inline-end: 7%;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: #ffd54a;
+  box-shadow: 0 0 50px 20px rgba(255, 200, 60, 0.65), 0 0 120px 60px rgba(255, 225, 130, 0.35);
+  transition: background 0.7s, box-shadow 0.7s;
+}
+[data-theme="dark"] .orb {
+  background: #f3f0dc;
+  box-shadow: inset -22px -8px 0 0 #cfd2e3, 0 0 50px 12px rgba(200, 210, 255, 0.35);
+}
+
+/* clouds: visible in the day, fade away at night */
+.cloud {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: var(--w);
+  height: calc(var(--w) * 0.3);
+  background: #fff;
+  border-radius: 100px; opacity: 0.9;
+  transition: opacity 0.7s;
+  animation: drift 40s ease-in-out infinite alternate;
+}
+
+.cloud::before, .cloud::after {
+  content: "";
+  position: absolute;
+  background: #fff;
+  border-radius: 50%;
+}
+
+.cloud::before {
+  width: 45%;
+  height: 150%;
+  left: 15%;
+  top: -70%;
+}
+
+.cloud::after {
+  width: 35%;
+  height: 120%;
+  left: 50%;
+  top: -45%;
+}
+
+[data-theme="dark"] .cloud {
+  opacity: 0;
+}
+
+@keyframes drift{
+  from {
+    transform: translateX(0);
+  } to {
+    transform: translateX(70px);
+  }
+}
+
+/* stars: hidden in the day, shiny and twinkling at night */
+.star {
+  position: absolute; left: var(--x); top: var(--y);
+  width: var(--s); height: var(--s); border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 6px 2px rgba(255, 255, 255, 0.95), 0 0 16px 5px rgba(170, 200, 255, 0.55);
+  opacity: 0; transition: opacity 0.7s;
+}
+
+[data-theme="dark"] .star {
+  opacity: 1;
+  animation: twinkle 2.5s ease-in-out infinite alternate;
+  animation-delay: var(--d);
+}
+
+@keyframes twinkle {
+  from { opacity: 0.3; transform: scale(0.8); }
+  to   { opacity: 1;   transform: scale(1.3); }
+}
+/* big stars get a sparkle cross */
+.star.big::before, .star.big::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.star.big::before {
+  width: 600%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #fff, transparent);
+}
+
+.star.big::after  {
+  width: 1px;
+  height: 600%;
+  background: linear-gradient(180deg, transparent, #fff, transparent);
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+  padding: 6px 14px;
+  color: var(--on-accent);
+  background: var(--accent);
+  border: none;
+  border-radius: 20px;
+}
+
+button:hover { opacity: 0.85; }
+
+/* navbar */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px;
+  padding: 10px 24px;
+  background: var(--card); backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+}
+
+.brand {
+  font-weight: bold;
+  font-size: 1.2rem;
+  text-decoration: none;
+}
+
+.navbar nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.navbar nav a {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.navbar nav a:hover { color: var(--accent); }
+
+.controls {
+  display: flex;
+  gap: 8px;
+}
+
+/* layout */
+main {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 16px;
+}
+
+section { margin-bottom: 56px; }
+
+h1 {
+  font-family: Georgia,serif;
+  font-size: 2.4rem;
+}
+
+h2 {
+  font-family: Georgia, serif;
+  margin-bottom: 18px;
+  text-align: center;
+}
+
+h3 { margin-bottom: 4px; }
+
+.sub-title {
+  font-family: Georgia, serif;
+  text-align: center;
+  margin: 28px 0 4px;
+}
+
+.sub-note {
+  text-align: center;
+  font-size: 0.95rem;
+  margin-bottom: 14px;
+}
+
+.grid .sub-title,
+.grid .sub-note {
+  grid-column: 1 / -1;
+}
+
+.role {
+  color: var(--accent);
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.about { display: flex; flex-wrap: wrap; align-items: center; gap: 28px; padding: 32px; margin-top: 24px; }
+
+#avatar {
+  width: 170px; height: 170px; object-fit: cover; border-radius: 50%;
+  border: 4px solid var(--accent); background: var(--card);
+}
+.about > div {
+  flex: 1;
+  min-width: 240px;
+}
+
+.about p {font-size: 1rem; }
+
+.hi {
+  color: var(--accent);
+  font-weight: bold;
+  margin-bottom: 0;
+}
+
+.facts { margin: 14px 0; }
+
+.facts li { font-size: 0.9rem; }
+
+.links {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-block;
+  padding: 6px 18px;
+  border-radius: 20px;
+  text-decoration: none;
+  color: var(--on-accent);
+  background: var(--accent);
+}
+
+.btn:hover { opacity: 0.85; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.card {
+  background: var(--glass);
+  backdrop-filter: blur(6px);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+
+}
+
+.card p {
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+}
+
+.chips {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.about .facts { justify-content: flex-start; }
+
+.chips li {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 4px 16px;
+}
+
+/* volunteering timeline */
+.timeline {
+  list-style: none;
+  max-width: 600px;
+  margin-inline: auto;
+  border-inline-start: 3px solid var(--accent);
+  padding-inline-start: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.timeline li{
+  position: relative;
+  background: var(--glass);
+  backdrop-filter: blur(6px);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 16px;
+}
+
+.timeline li::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: -33px;
+  top: 18px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 4px var(--card);
+}
+.timeline .date {
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: var(--accent);
+}
+
+.timeline h3 { margin-bottom: 0; }
+
+.timeline p { margin: 0; font-size: 0.95rem; }
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 520px;
+  margin-inline: auto;
+}
+
+input, textarea {
+  font: inherit;
+  padding: 8px;
+  color: var(--text);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+form button {
+  align-self: center;
+  margin-top: 10px;
+}
+
+footer {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 28px 16px;
+  background: var(--card);
+  border-top: 1px solid var(--border);
+}
+
+/* mobile */
+@media (max-width: 768px) {
+.navbar { padding: 8px 12px; gap: 6px; }
+.brand { order: 1; font-size: 1.1rem; }
+.controls { order: 2; gap: 6px; }
+.controls button { padding: 4px 12px; font-size: 0.85rem; }
+.navbar nav {
+  order: 3; width: 100%;
+  flex-wrap: nowrap; overflow-x: auto; white-space: nowrap;
+  gap: 14px; font-size: 0.9rem; padding-bottom: 4px;
+  scrollbar-width: none;
+}
+}
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
