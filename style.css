@@ -235,6 +235,23 @@ h2 {
 
 h3 { margin-bottom: 4px; }
 
+.sub-title {
+  font-family: Georgia, serif;
+  text-align: center;
+  margin: 28px 0 4px;
+}
+
+.sub-note {
+  text-align: center;
+  font-size: 0.95rem;
+  margin-bottom: 14px;
+}
+
+.grid .sub-title,
+.grid .sub-note {
+  grid-column: 1 / -1;
+}
+
 .role {
   color: var(--accent);
   font-weight: bold;
